@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="",
-    version="0.1.0",
+    version="1.1.0",
     author="AlgoNouir",
     author_email="algo.mahdi.nouri@gmail.com",
     description="A modern authentication and user management package for Django (Clerk-style)",
@@ -14,8 +14,7 @@ setup(
     install_requires=[
         "Django>=4.2",
         "djangorestframework>=3.15",
-        "djangorestframework-simplejwt>=5.3.0",
-        "python-dotenv>=1.0",
+		"djangorestframework-simplejwt>=5.3.0",
     ],
     python_requires=">=3.9",
     license="MIT",
