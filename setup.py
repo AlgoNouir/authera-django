@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="",
-    version="1.1.0",
+    version="1.1.1",
     author="AlgoNouir",
     author_email="algo.mahdi.nouri@gmail.com",
     description="A modern authentication and user management package for Django (Clerk-style)",
