@@ -1,6 +1,8 @@
 from typing import Tuple, Optional
 from django.contrib.auth import get_user_model
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.tokens import AccessToken
+from django.conf import settings
 
 
 User = get_user_model()
@@ -13,15 +15,13 @@ def issue_user_tokens(user_id: str, username: Optional[str] = None) -> Tuple[str
 
     user = User.objects.get(id=user_id)
 
+
     # Create refresh token linked to the user
     refresh = RefreshToken.for_user(user)
 
-    # Optional custom claims
-    if username is not None:
-        refresh["username"] = username
-
-    # Generate access token
-    access = refresh.access_token
+    access = AccessToken()
+    access["username"] = user.username
+    access["user_id"] = user.id
 
     # Return values
     return (
