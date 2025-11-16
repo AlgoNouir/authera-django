@@ -13,7 +13,7 @@ class UsernamePasswordScenario(BaseScenario):
                 "maxLength": 255
             },
             "password": {
-                "type": "string",
+                "type": "password",
                 "minLength": 8,
                 "maxLength": 255
             }

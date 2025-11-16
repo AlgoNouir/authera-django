@@ -1,26 +1,32 @@
 from typing import Tuple, Optional
-
+from django.contrib.auth import get_user_model
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
+User = get_user_model()
+
 def issue_user_tokens(user_id: str, username: Optional[str] = None) -> Tuple[str, str, int, int]:
     """
-    Issue access and refresh tokens using Simple JWT.
-    Returns (access_token, refresh_token, access_max_age_seconds, refresh_max_age_seconds)
+    Issue access and refresh tokens using Simple JWT (standard way).
+    Returns: access_token, refresh_token, access_expires_in, refresh_expires_in
     """
-    # Create a refresh token and attach custom claims
-    refresh = RefreshToken()
-    refresh["uid"] = str(user_id)
+
+    user = User.objects.get(id=user_id)
+
+    # Create refresh token linked to the user
+    refresh = RefreshToken.for_user(user)
+
+    # Optional custom claims
     if username is not None:
         refresh["username"] = username
 
+    # Generate access token
     access = refresh.access_token
 
-    access_token = str(access)
-    refresh_token = str(refresh)
-    access_max_age = int(access.lifetime.total_seconds())
-    refresh_max_age = int(refresh.lifetime.total_seconds())
-
-    return access_token, refresh_token, access_max_age, refresh_max_age
-
-
+    # Return values
+    return (
+        str(access),
+        str(refresh),
+        int(access.lifetime.total_seconds()),
+        int(refresh.lifetime.total_seconds()),
+    )
